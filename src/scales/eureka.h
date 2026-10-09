@@ -18,6 +18,10 @@ public:
   bool isConnected() override;
   bool tare() override;
   bool hasScaleTimer() const override { return true; }
+  bool hasTimerControl() const override { return true; }
+  void startTimer() override;
+  void stopTimer() override;
+  void resetTimer() override;
 
 private:
   bool markedForReconnection = false;

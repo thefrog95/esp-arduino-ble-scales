@@ -75,6 +75,27 @@ bool EurekaScales::tare() {
   return true;
 };
 
+void EurekaScales::startTimer() {
+  if (!isConnected()) return;
+  RemoteScales::log("Start timer sent\n");
+  uint8_t payload[6] = { CMD_HEADER, CMD_BASE, CMD_START_TIMER, CMD_START_TIMER };
+  sendMessage(payload, sizeof(payload));
+}
+
+void EurekaScales::stopTimer() {
+  if (!isConnected()) return;
+  RemoteScales::log("Stop timer sent\n");
+  uint8_t payload[6] = { CMD_HEADER, CMD_BASE, CMD_STOP_TIMER, CMD_STOP_TIMER };
+  sendMessage(payload, sizeof(payload));
+}
+
+void EurekaScales::resetTimer() {
+  if (!isConnected()) return;
+  RemoteScales::log("Reset timer sent\n");
+  uint8_t payload[6] = { CMD_HEADER, CMD_BASE, CMD_RESET_TIMER, CMD_RESET_TIMER };
+  sendMessage(payload, sizeof(payload));
+}
+
 //-----------------------------------------------------------------------------------/
 //---------------------------       PRIVATE       -----------------------------------/
 //-----------------------------------------------------------------------------------/
