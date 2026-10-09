@@ -109,6 +109,9 @@ bool EurekaScales::decodeAndHandleNotification() {
     weight = -weight;
   }
 
+    // Scale's own stopwatch: byte 3 = running flag, byte 4 = elapsed seconds
+  RemoteScales::setScaleTimerMs(dataBuffer[4] * 1000UL);
+  
   RemoteScales::setWeight(weight * 0.1f); // Convert to floating point
 
   // Remove processed message from the buffer

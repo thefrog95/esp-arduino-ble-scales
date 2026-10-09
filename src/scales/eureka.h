@@ -17,6 +17,7 @@ public:
   void disconnect() override;
   bool isConnected() override;
   bool tare() override;
+  bool hasScaleTimer() const override { return true; }
 
 private:
   bool markedForReconnection = false;
