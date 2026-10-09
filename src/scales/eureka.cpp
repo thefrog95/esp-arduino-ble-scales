@@ -75,6 +75,27 @@ bool EurekaScales::tare() {
   return true;
 };
 
+void EurekaScales::startTimer() {
+  if (!isConnected()) return;
+  RemoteScales::log("Start timer sent\n");
+  uint8_t payload[6] = { CMD_HEADER, CMD_BASE, CMD_START_TIMER, CMD_START_TIMER };
+  sendMessage(payload, sizeof(payload));
+}
+
+void EurekaScales::stopTimer() {
+  if (!isConnected()) return;
+  RemoteScales::log("Stop timer sent\n");
+  uint8_t payload[6] = { CMD_HEADER, CMD_BASE, CMD_STOP_TIMER, CMD_STOP_TIMER };
+  sendMessage(payload, sizeof(payload));
+}
+
+void EurekaScales::resetTimer() {
+  if (!isConnected()) return;
+  RemoteScales::log("Reset timer sent\n");
+  uint8_t payload[6] = { CMD_HEADER, CMD_BASE, CMD_RESET_TIMER, CMD_RESET_TIMER };
+  sendMessage(payload, sizeof(payload));
+}
+
 //-----------------------------------------------------------------------------------/
 //---------------------------       PRIVATE       -----------------------------------/
 //-----------------------------------------------------------------------------------/
@@ -109,6 +130,9 @@ bool EurekaScales::decodeAndHandleNotification() {
     weight = -weight;
   }
 
+  // Scale's own stopwatch: byte 3 = running flag, byte 4 = elapsed seconds
+  RemoteScales::setScaleTimerMs(dataBuffer[4] * 1000UL);
+  
   RemoteScales::setWeight(weight * 0.1f); // Convert to floating point
 
   // Remove processed message from the buffer
